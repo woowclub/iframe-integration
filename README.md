@@ -1,4 +1,4 @@
-# Integration of the askStelle IFrame
+# Integration of the askStella IFrame
 For the best user experience, our IFrame should be included with our resize script so that the height of the IFrame adapts to its content needs.
 ```html
 <script type="text/javascript">
