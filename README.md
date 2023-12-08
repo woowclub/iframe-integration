@@ -35,7 +35,15 @@ A sample "add to cart" message looks like this:
 ```
 Currently, we are only allowing single items to be added to the cart; therefore, the length of the items array is always one, as well as the quantity.
 
-Here is an example of how to catch this message (in addition to the iframe resize):
+Here is an example of how to catch this message (in addition to the iframe resize) and put the product into a shopify cart. Please note that this will not trigger yet an update of the cart icon. This needs to be implemented according the options of your used shopify theme.
+
+Code for some Shopify Themes can be found here:
+- [Archetype Expanse](Shopify%20Themes/Archetype%20Expanse/README.md)
+- [Archetype Fetch](Shopify%20Themes/Archetype%20Fetch/README.md)
+- [Archetype Gem](Shopify%20Themes/Archetype%20Gem/README.md)
+- [Archetype Impulse](Shopify%20Themes/Archetype%20Impulse/README.md)
+- [Archetype Motion](Shopify%20Themes/Archetype%20Motion/README.md)
+
 ```html
 <script type="text/javascript">
     window.addEventListener('message', function(e) {
