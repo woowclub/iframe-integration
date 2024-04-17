@@ -63,6 +63,8 @@ Code for some Shopify Themes can be found here:
 - [Archetype Impulse](Shopify%20Themes/Archetype%20Impulse/README.md)
 - [Archetype Motion](Shopify%20Themes/Archetype%20Motion/README.md)
 
+Generic example:
+
 ```html
 <script type="text/javascript">
   window.addEventListener(
@@ -77,6 +79,7 @@ Code for some Shopify Themes can be found here:
       if (message.type === "addToCart") {
         const data = { items: message.items };
 
+        // add item to cart (according to theme)
         fetch("/cart/add.js", {
           method: "post",
           body: JSON.stringify(data),
@@ -89,6 +92,7 @@ Code for some Shopify Themes can be found here:
           .then((res) => res.json())
           .then((data) => {
             console.debug(data);
+            // show cart drawer (according to theme)
           })
           .catch((e) => {
             console.error(e);
