@@ -16,7 +16,11 @@ Please note that you need to replace the `<YOUR-IDENTIFIER>` with your identifie
       let message = e.data;
       let iframe = document.querySelector("#askstella-iframe");
       iframe.style.height = message.height + "px";
-      iframe.scrollIntoView({ behavior: "smooth" });
+
+      // If you have a static menu on the top, set the rough height of it here to makes sure the iframe is not hidden behind it
+      let offset = 100;
+      let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     },
     false
   );
@@ -101,7 +105,10 @@ Generic example:
         // this seems to be an iframe resize message
         let iframe = document.querySelector("#askstella-iframe");
         iframe.style.height = message.height + "px";
-        iframe.scrollIntoView({ behavior: "smooth" });
+        // If you have a static menu on the top, set the rough height of it here to makes sure the iframe is not hidden behind it
+        let offset = 100;
+        let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
       }
     },
     false
@@ -136,7 +143,10 @@ The integration is the same as for the analytics IFrame, but you need to use the
       let message = e.data;
       let iframe = document.querySelector("#askstella-iframe");
       iframe.style.height = message.height + "px";
-      iframe.scrollIntoView({ behavior: "smooth" });
+      // If you have a static menu on the top, set the rough height of it here to makes sure the iframe is not hidden behind it
+      let offset = 100;
+      let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
     },
     false
   );
