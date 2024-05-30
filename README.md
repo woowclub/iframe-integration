@@ -66,6 +66,8 @@ Code for some Shopify Themes can be found here:
 - [Archetype Gem](Shopify%20Themes/Archetype%20Gem/README.md)
 - [Archetype Impulse](Shopify%20Themes/Archetype%20Impulse/README.md)
 - [Archetype Motion](Shopify%20Themes/Archetype%20Motion/README.md)
+- [Maestrooo Impact](Shopify%20Themes/Maestrooo%20Impact/README.md)
+- [Maestrooo Prestige](Shopify%20Themes/Maestrooo%20Prestige/README.md)
 
 Generic example:
 
