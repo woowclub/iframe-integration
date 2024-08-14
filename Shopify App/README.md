@@ -6,4 +6,4 @@
 2. Click on "Install"
 3. Activate tracking via the button in the app in the theme
 
-https://github.com/woowclub/iframe-integration/assets/1588581/4038966d-3fac-4eb2-a4ef-b78df30bd063
+https://github.com/woowclub/iframe-integration/raw/main/Shopify%20App/video.mp4
