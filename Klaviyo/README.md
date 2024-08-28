@@ -6,6 +6,7 @@ If Klaviyo events are enabled in your account, we will send an event to Klaviyo 
 | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | action                    | 'AskStella Analysis Completed' (Name of event)                                                                                        |
 | askstella_funnel_name     | Short name of the funnel in which this analysis was performed                                                                         |
+| askstella_analysis_id     | The analysis ID in our system                                                                                                         |
 | askstella_analysis_url    | URL of the analysis results page for this user                                                                                        |
 | askstella_analysis_result | One of our color types (LIGHT, LIGHT_WARM, WARM, DEEP, VERY_DEEP, SOFT_LIGHT, SOFT_MEDIUM, SOFT_DEEP, SOFT_VERY_DEEP, CLEAR)          |
 | askstella_hair_color      | The hair color the user selected (VERY_LIGHT, MEDIUM_BLONDE, LIGHT, RED_BLONDE, RED, MID_BROWN, BROWN, BLACK)                         |
@@ -15,7 +16,6 @@ If Klaviyo events are enabled in your account, we will send an event to Klaviyo 
 | askstella_body_shape      | The body type result (SHAPE_A, SHAPE_V, SHAPE_X, SHAPE_BROAD_X, SHAPE_H, SHAPE_O) - only available in funnels with body type analysis |
 | askstella_query_string    | The query string of the URL that lead the user to the analysis (e.g. utm parameters you used)                                         |
 | askstella_products_all    | List of products (see below)                                                                                                          |
-| external_id               | The analysis ID in our system                                                                                                         |
 
 Each product in the product list will have the following properties:
 
