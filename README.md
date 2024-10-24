@@ -10,7 +10,7 @@ Please note that you need to replace the `<YOUR-IDENTIFIER>` with your identifie
     "message",
     function (e) {
       if (!e.origin.endsWith(".askstella.ai")) {
-        console.debug("Message from other origin received: " + e.origin);
+        // Message not from askStella
         return;
       }
       let message = e.data;
@@ -77,7 +77,7 @@ Generic example:
     "message",
     function (e) {
       if (!e.origin.endsWith(".askstella.ai")) {
-        console.debug("Message from other origin received: " + e.origin);
+        // Message not from askStella
         return;
       }
 
@@ -139,7 +139,7 @@ The integration is the same as for the analytics IFrame, but you need to use the
     "message",
     function (e) {
       if (!e.origin.endsWith(".askstella.ai")) {
-        console.debug("Message from other origin received: " + e.origin);
+        // Message not from askStella
         return;
       }
       let message = e.data;
