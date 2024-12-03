@@ -44,7 +44,7 @@ A sample "add to cart" message looks like this:
 
 ```js
 {
-    type: "addToCart",
+    type: "add_to_cart",
     items:
         [
             {
@@ -82,7 +82,7 @@ Generic example:
       }
 
       let message = e.data;
-      if (message.type === "addToCart") {
+      if (message.type === "add_to_cart") {
         const data = { items: message.items };
 
         // add item to cart (according to theme)

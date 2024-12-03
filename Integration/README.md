@@ -1,4 +1,4 @@
-# e-commerce integration
+# E-commerce integration
 
 If you are using Shopify and our ShopifyApp, then you don't need to worry about the integration, as it is already set up
 for you. If you are using a different e-commerce platform, you will find here the information you need to integrate our
@@ -7,7 +7,10 @@ system to gain the most out of it.
 ## Analysis integration
 
 Our StellaMatch analysis can be integrated as an iframe on any page of your website. The iframe URL is
-`https://<your identifier>.askstella.ai/`. This can be on a dedicated page or for exmaple in a popup on a product page.
+`https://<your identifier>.askstella.ai/`. This can be on a dedicated page or for example in a popup on a product page.
+If you are implementing the integration as a flexible plugin for your system which allows adding the funnel as a widget
+to any page, you should ask for the identifier as a parameter. Some shops might have multiple funnels, e.g. one general
+funnel for all products and one for a specific product category.
 
 ```html
 <iframe
@@ -39,31 +42,27 @@ You can use the following code snippet:
 ```html
 <script type="text/javascript">
   // catch post messages from StellaMatch
-  window.addEventListener(
-    "message",
-    function (e) {
-      if (!e.origin.endsWith(".askstella.ai")) {
-        // Message not from askStella
+  window.addEventListener("message", function (e) {
+    if (!e.origin.endsWith(".askstella.ai")) {
+      // Message not from askStella
+      return;
+    }
+    let message = e.data;
+    if (message && message.type === "height_changed") {
+      const iframe = document.querySelector("#askstella-iframe");
+      if (!iframe) {
+        console.warn("StellaMatch iframe not found");
         return;
       }
-      let message = e.data;
-      if (message && message.type === "height_changed") {
-        const iframe = document.querySelector("#askstella-iframe");
-        if (!iframe) {
-          console.warn("StellaMatch iframe not found");
-          return;
-        }
 
-        // Set the height of the iframe
-        iframe.style.height = message.height + "px";
-      }
-    },
-    false
-  );
+      // Set the height of the iframe
+      iframe.style.height = message.height + "px";
+    }
+  });
 </script>
 ```
 
-If the previous step was very long and the user is scolled down, especially on mobile phones, it can happen, that the
+If the previous step was very long and the user is scrolled down, especially on mobile phones, it can happen, that the
 next step is not visible. To avoid this, you can scroll the page to the top of the iframe with the following code
 extension. If you have a static menu on the top, you need to set the offset to the height of the menu.
 
@@ -72,7 +71,7 @@ extension. If you have a static menu on the top, you need to set the offset to t
 const iframeTop = iframe.getBoundingClientRect().top;
 const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 if (iframeTop < 0 || iframeTop > viewportHeight) {
-  // If you have a static menu on the top, set the rough height of it here to makes sure the iframe is not hidden behind it
+  // If you have a static menu on the top, set the rough height of it here to make sure the iframe is not hidden behind it
   let offset = 100;
   let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
   window.scrollTo({ top: y, behavior: "smooth" });
@@ -144,9 +143,9 @@ On the result page the user has the option to add an item directly to the cart. 
 listen to the post message from the iframe and add the product to the cart.
 If the store also offers sets/bundles of multiple products and we recommend them, we will add a `setId` to the message
 to indicate that the items are part of a set. For example, the setId might refer to a product bundle that offers
-purchasing foundation and a concealer together for a reduced price.
-of a foundation and a concealer, then the setId would be the ID of the bundle and the items array would contain the IDs
-of the variation of the foundation and variation of the concealer that were recommended.
+purchasing foundation and a concealer together for a reduced price. If the store offers such a bundle, then the setId
+would be the ID of the bundle, and the items array would contain the IDs of the recommended variations of the
+foundation and concealer
 
 The post message has the following payload:
 
@@ -170,34 +169,30 @@ You can use the following code snippet to add the product to the cart:
 ```html
 <script type="text/javascript">
   // catch post messages from StellaMatch
-  window.addEventListener(
-    "message",
-    function (e) {
-      if (!e.origin.endsWith(".askstella.ai")) {
-        // Message not from askStella
-        return;
-      }
-      let message = e.data;
-      if (message && message.type === "addToCart") {
-        const items = { items: message.items };
+  window.addEventListener("message", function (e) {
+    if (!e.origin.endsWith(".askstella.ai")) {
+      // Message not from askStella
+      return;
+    }
+    let message = e.data;
+    if (message && message.type === "add_to_cart") {
+      const items = { items: message.items };
 
-        // add items to cart (according to your e-commerce system)
-        if (message.setId) {
-          // add set with provided item list to cart
-        } else {
-          // add single items to cart
-        }
-        // if successfull, show cart drawer and/or update cart icon
+      // add items to cart (according to your e-commerce system)
+      if (message.setId) {
+        // add set with provided item list to cart
+      } else {
+        // add single items to cart
       }
-    },
-    false
-  );
+      // if successful, show cart drawer and/or update cart icon
+    }
+  });
 </script>
 ```
 
 ## Pre-fill sets with recommended products
 
-If the shop is also offering sets/bundles of multiple products and we are also recommenging those, then you can pre-fill
+If the shop is also offering sets/bundles of multiple products and we are also recommending those, then you can pre-fill
 the set with the recommended products when the user clicks on our recommendation. We will open the bundle's product page
 and attach the recommended variations of the included products to the URL as query parameters.
 E.g. `https://yourshop.com/bundle/123?variations=234,345`.
@@ -209,7 +204,7 @@ Use this information to pre-fill the set with the recommended items.
 When a user is making an analysis, we recommend products to her/him. To track revenue resulting from these
 recommendations, each purchase must be analysed if it contains a product that was recommended by us.
 
-Wheneber a user finishes an analysis (`analyse_finished`) and in addition whenever a user opens their result page
+Whenever a user finishes an analysis (`analyse_finished`) and in addition whenever a user opens their result page
 (`result_page_opened`), we send a post message to the outer page. This message contains the products that were
 recommended to the user. You can store this information in the local storage of the user's browser and use it to track
 purchases.
@@ -282,7 +277,7 @@ Storing and loading the products:
 Having the information about the purchases, we can evaluate the success of our recommendations and provide our client
 with valuable insights on our dashboard.
 
-POST all purchases made in your show to our API endpoint `https://api.askstella.ai/v1/purchase` with the following JSON payload:
+POST all purchases made in your shop to our API endpoint `https://api.askstella.ai/v1/purchase` with the following JSON payload:
 
 ```json
 {
@@ -320,7 +315,7 @@ if (!recommendedProducts) {
   // user has not done an analysis yet, recommend it to the user
   widget.innerHTML = `
     <p>Do you need help choosing the right colour for you?<br/>
-      <a href="#" onClick="openAnalysisInAPopop(); return false;">
+      <a href="#" onclick="openAnalysisInAPopup(); return false;">
         Find your colour
       </a>
     </p>
@@ -329,7 +324,7 @@ if (!recommendedProducts) {
 }
 recommendedProducts = JSON.parse(recommendedProducts);
 
-widget.innerHTML += `
+widget.innerHTML = `
 <div>
     <p>Your recommended colours:</p>
     <ul id="recommended-list"></ul>
@@ -384,53 +379,49 @@ if (recommendationFound) {
 
 <script type="text/javascript">
   // catch post messages from StellaMatch
-  window.addEventListener(
-    "message",
-    function (e) {
-      if (!e.origin.endsWith(".askstella.ai")) {
-        // Message not from askStella
-        return;
-      }
-      const message = e.data;
-      if (!message || !message.type) {
-        return;
-      }
-      const iframe = document.querySelector("#askstella-iframe");
-      if (!iframe) {
-        console.warn("StellaMatch iframe not found");
-        return;
-      }
+  window.addEventListener("message", function (e) {
+    if (!e.origin.endsWith(".askstella.ai")) {
+      // Message not from askStella
+      return;
+    }
+    const message = e.data;
+    if (!message || !message.type) {
+      return;
+    }
+    const iframe = document.querySelector("#askstella-iframe");
+    if (!iframe) {
+      console.warn("StellaMatch iframe not found");
+      return;
+    }
 
-      if (message && message.type === "height_changed") {
-        // Set the height of the iframe
-        iframe.style.height = message.height + "px";
+    if (message && message.type === "height_changed") {
+      // Set the height of the iframe
+      iframe.style.height = message.height + "px";
 
-        // Scroll the page to the top of the iframe if it is not in the viewport
-        const iframeTop = iframe.getBoundingClientRect().top;
-        const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-        if (iframeTop < 0 || iframeTop > viewportHeight) {
-          // If you have a static menu on the top, set the rough height of it here to makes sure the iframe is not hidden behind it
-          let offset = 100;
-          let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
-          window.scrollTo({ top: y, behavior: "smooth" });
-        }
-      } else if (message.type === "analyse_finished" || message.type === "result_page_opened") {
-        localStorage.setItem("askstella_analysis_url", message.analysis_url);
-        localStorage.setItem("askstella_recommended_products", JSON.stringify(message.products));
-      } else if (message.type === "addToCart") {
-        const items = { items: message.items };
-
-        // add items to cart (according to your e-commerce system)
-        if (message.setId) {
-          // add set with provided item list to cart
-        } else {
-          // add single items to cart
-        }
-        // if successfull, show cart drawer and/or update cart icon
+      // Scroll the page to the top of the iframe if it is not in the viewport
+      const iframeTop = iframe.getBoundingClientRect().top;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (iframeTop < 0 || iframeTop > viewportHeight) {
+        // If you have a static menu on the top, set the rough height of it here to make sure the iframe is not hidden behind it
+        let offset = 100;
+        let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
       }
-    },
-    false
-  );
+    } else if (message.type === "analyse_finished" || message.type === "result_page_opened") {
+      localStorage.setItem("askstella_analysis_url", message.analysis_url);
+      localStorage.setItem("askstella_recommended_products", JSON.stringify(message.products));
+    } else if (message.type === "add_to_cart") {
+      const items = { items: message.items };
+
+      // add items to cart (according to your e-commerce system)
+      if (message.setId) {
+        // add set with provided item list to cart
+      } else {
+        // add single items to cart
+      }
+      // if successful, show cart drawer and/or update cart icon
+    }
+  });
 
   // load the result page if analysis was done
   document.addEventListener("DOMContentLoaded", () => {
@@ -487,7 +478,7 @@ if (recommendationFound) {
     // user has not done an analysis yet, recommend it to the user
     widget.innerHTML = `
     <p>Do you need help choosing the right colour for you?<br/>
-      <a href="#" onClick="openAnalysisInAPopop(); return false;">
+      <a href="#" onclick="openAnalysisInAPopup(); return false;">
         Find your colour
       </a>
     </p>

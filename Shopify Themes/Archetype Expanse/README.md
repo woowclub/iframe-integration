@@ -14,7 +14,7 @@ Only replace the "<YOUR-IDENTIFIER>" with your identifier, e.g. https://my-store
       }
 
       let message = e.data;
-      if (message.type === "addToCart") {
+      if (message.type === "add_to_cart") {
         const data = { items: message.items };
 
         fetch("/cart/add.js", {

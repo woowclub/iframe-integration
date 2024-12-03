@@ -1,6 +1,6 @@
 # Klaviyo Events
 
-To enable our Klaviyo sync, go to your funnel's "General" settings and enable the "Sync analyses with CRM" option be choosing "Klaviyo" from the dropdown. Afterwards you will need to enter your Klaviyo API key and optionally a list ID if you want to add the Profile on a dedicated list in addition to the event.
+To enable our Klaviyo sync, go to your funnel's "General" settings and enable the "Sync analyses with CRM" option by choosing "Klaviyo" from the dropdown. Afterwards you will need to enter your Klaviyo API key and optionally a list ID if you want to add the profile on a dedicated list in addition to the event.
 
 If Klaviyo events are enabled in your account, we will send an event to Klaviyo when a user has completed the analysis. The event is sent with the following properties:
 
@@ -14,7 +14,7 @@ If Klaviyo events are enabled in your account, we will send an event to Klaviyo 
 | `askstella_hair_color`      | The hair color the user selected (`VERY_LIGHT`, `MEDIUM_BLONDE`, `LIGHT`, `RED_BLONDE`, `RED`, `MID_BROWN`, `BROWN`, `BLACK`)                    |
 | `askstella_eye_color`       | The eye color the user selected (`BLUE`, `GREY`, `GREEN`, `GREEN_BROWN`, `AMBER`, `BROWN`, `DARK_BROWN`)                                         |
 | `askstella_skin_color`      | The skin color the user selected (`FAIR`, `LIGHT`, `MEDIUM`, `MEDIUM_DEEP`, `DEEP`)                                                              |
-| `askstella_query_string`    | The query string of the URL that lead the user to the analysis (e.g. utm parameters you used)                                                    |
+| `askstella_query_string`    | The query string of the URL that led the user to the analysis (e.g. utm parameters you used)                                                     |
 | `askstella_products_all`    | List of products (see below)                                                                                                                     |
 
 In addition, if you have generic "single selection" steps in your funnel, we will also send the selected value of these steps as properties. The property name will be the step's key name and the key of the value:
