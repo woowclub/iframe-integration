@@ -96,7 +96,7 @@ Our PostMessage has the following payload:
   "analysis_url": "https://<your identifier>.askstella.ai/...",
   "products": [...], // not relevant here
   "name": "FirstName of user", // not relevant here
-  "colorType": "Analysis Result" // not relevant here
+  "color_type": "Analysis Result" // not relevant here
 }
 ```
 
@@ -141,9 +141,9 @@ the result page in a dedicated section of the user's profile.
 
 On the result page the user has the option to add an item directly to the cart. To make this possible, you need to
 listen to the post message from the iframe and add the product to the cart.
-If the store also offers sets/bundles of multiple products and we recommend them, we will add a `setId` to the message
-to indicate that the items are part of a set. For example, the setId might refer to a product bundle that offers
-purchasing foundation and a concealer together for a reduced price. If the store offers such a bundle, then the setId
+If the store also offers sets/bundles of multiple products and we recommend them, we will add a `set_id` to the message
+to indicate that the items are part of a set. For example, the set_id might refer to a product bundle that offers
+purchasing foundation and a concealer together for a reduced price. If the store offers such a bundle, then the set_id
 would be the ID of the bundle, and the items array would contain the IDs of the recommended variations of the
 foundation and concealer
 
@@ -153,7 +153,7 @@ The post message has the following payload:
 {
   "type": "add_to_cart",
   "source": "...", // (optional) for advanced tracking the value of the "&source=..." query parameter is forwarded here
-  "setId": "234", // if this is a set, the ID of the set otherwise undefined
+  "set_id": "234", // if this is a set, the ID of the set otherwise undefined
   "items": [
     {
       "id": "123",
@@ -179,7 +179,7 @@ You can use the following code snippet to add the product to the cart:
       const items = { items: message.items };
 
       // add items to cart (according to your e-commerce system)
-      if (message.setId) {
+      if (message.set_id) {
         // add set with provided item list to cart
       } else {
         // add single items to cart
@@ -220,7 +220,7 @@ Our PostMessage has the following payload:
   "analysis_url": "https://<your identifier>.askstella.ai/...",
   "products": [...], // the recommended products
   "name": "FirstName of user", // not relevant here
-  "colorType": "Analysis Result" // not relevant here
+  "color_type": "Analysis Result" // not relevant here
 }
 ```
 
@@ -414,7 +414,7 @@ if (recommendationFound) {
       const items = { items: message.items };
 
       // add items to cart (according to your e-commerce system)
-      if (message.setId) {
+      if (message.set_id) {
         // add set with provided item list to cart
       } else {
         // add single items to cart
