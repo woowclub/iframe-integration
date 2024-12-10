@@ -152,7 +152,7 @@ The post message has the following payload:
 ```json
 {
   "type": "add_to_cart",
-  "source": "...", // (optional) for advanced tracking the value of the "&source=..." query parameter is forwarded here
+  "source": "add_to_cart", // (optional) for advanced tracking the value of the "&source=..." query parameter is appended to "add_to_cart_" here
   "set_id": "234", // if this is a set, the ID of the set otherwise undefined
   "items": [
     {
