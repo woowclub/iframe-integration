@@ -18,7 +18,7 @@ If Klaviyo events are enabled in your account, we will send an event to Klaviyo 
 | `askstella_products_all`    | List of products (see below)                                                                                                                     |
 
 In addition, if you have generic "single selection" steps in your funnel, we will also send the selected value of these steps as properties. The property name will be the step's key name and the key of the value:
-`askstella\_[Step Key]: [Options Key]`
+`askstella_[Step Key]: [Options Key]`
 e.g. `askstella_skin_dryness: VERY_DRY`
 
 Each product in the product list (askstella_products_all) will have the following properties:
