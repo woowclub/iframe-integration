@@ -34,3 +34,7 @@ Each product in the product list (askstella_products_all) will have the followin
 If no user (with this email) exists in Klaviyo, we will create a new user and add the event to this new profile. If the user already exists, the event will be added to the user's profile.
 
 The same properties of the event will also be set in the user's profile. This way the profile will always show the most recent analysis results of the user, while the event history will show all the analyses the user has performed over time.
+
+# Klaviyo List
+
+If you provide a list ID in our CRM settings, we will add the user to this list and subscribe him/her to email marketing in addition to sending the event. The list ID can be found in Klaviyo under "Lists" -> "View list" -> "Settings" -> "List ID". If you want to use a double opt-in list or if you want to subscribe the user directly to the list, you can set this up in Klaviyo.
