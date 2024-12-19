@@ -62,20 +62,36 @@ You can use the following code snippet:
 </script>
 ```
 
-If the previous step was very long and the user is scrolled down, especially on mobile phones, it can happen, that the
-next step is not visible. To avoid this, you can scroll the page to the top of the iframe with the following code
-extension. If you have a static menu on the top, you need to set the offset to the height of the menu.
+### Scroll to top
 
-```js
-// Scroll the page to the top of the iframe if it is not in the viewport
-const iframeTop = iframe.getBoundingClientRect().top;
-const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-if (iframeTop < 0 || iframeTop > viewportHeight) {
-  // If you have a static menu on the top, set the rough height of it here to make sure the iframe is not hidden behind it
-  let offset = 100;
-  let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
-  window.scrollTo({ top: y, behavior: "smooth" });
-}
+If the previous step was very long and the user is scrolled down, especially on mobile phones, it can happen, that the
+next step is not visible to user at first sight. To avoid this, we send a post message whenever the user navigated to a
+different page to indicate that now would be a good time to scroll the page to the top of the iframe.
+To avoid unneeded scrolling, it is recommended to only scroll if it is needed, i.e. the top of the iframe is outside of
+the current viewport.
+
+```html
+<script type="text/javascript">
+  // catch post messages from StellaMatch
+  window.addEventListener("message", function (e) {
+    if (!e.origin.endsWith(".askstella.ai")) {
+      // Message not from askStella
+      return;
+    }
+    let message = e.data;
+    if (message && message.type === "scroll_to_top") {
+      // Scroll the page to the top of the iframe if it is not in the viewport
+      const iframeTop = iframe.getBoundingClientRect().top;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (iframeTop < 0 || iframeTop > viewportHeight) {
+        // If you have a static menu on the top, set the rough height of it here to make sure the iframe is not hidden behind it
+        let offset = 100;
+        let y = iframe.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }
+  });
+</script>
 ```
 
 ### Displaying the user's analysis results
@@ -394,10 +410,10 @@ if (recommendationFound) {
       return;
     }
 
-    if (message && message.type === "height_changed") {
+    if (message.type === "height_changed") {
       // Set the height of the iframe
       iframe.style.height = message.height + "px";
-
+    } else if (message.type === "scroll_to_top") {
       // Scroll the page to the top of the iframe if it is not in the viewport
       const iframeTop = iframe.getBoundingClientRect().top;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
