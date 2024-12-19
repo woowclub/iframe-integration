@@ -269,6 +269,7 @@ Storing and loading the products:
   // this step now heavily depends on your e-commerce system
   // either evaluate the purchase on the client side and mark the purchase
   // or transfer the recommended products to your server and mark the purchase there
+  // assuming that the event "PurchaseDone" is triggered when a purchase is made in the shop:
   document.addEventListener("PurchaseDone", (cart) => {
     // Retrieve the recommended products from local storage
     let recommendedProducts = localStorage.getItem("askstella_recommended_products");
@@ -288,28 +289,56 @@ Storing and loading the products:
 </script>
 ```
 
-### Allow us to analyse the data in our dashboard (coming soon)
+### Push purchase information to our API
 
-Having the information about the purchases, we can evaluate the success of our recommendations and provide our client
+Having the information about the purchases, we can evaluate the success of our recommendations and provide our clients
 with valuable insights on our dashboard.
 
-POST all purchases made in your shop to our API endpoint `https://api.askstella.ai/v1/purchase` with the following JSON payload:
+POST all purchases made in the shop to our API endpoint `https://tracking-api-1024057789892.europe-west3.run.app/v1/purchase/createOrder` with the following example JSON payload:
 
 ```json
 {
-  "products": [
+  "created_at": "2024-02-28T15:08:25-05:00", // ISO 8601 formatted date when the order was placed
+  "id": 5302361555009, // Optional: some internal id in your shop to identify the order
+  "order_number": 1018, // The order number in your shop
+  "currency": "EUR",
+  "line_items": [
+    // The ordered items
     {
-      "id": "123",
-      "price": 12.34,
+      "id": 13109413740609, // Optional: Some internal id to identify this cart item
+      "name": "Dramatic Length Mascara - Brown", // Full name of the purchased product (product name + variant name)
+      "title": "Dramatic Length Mascara", // Product name
+      "variant_title": "Brown", // Variant name
+      "product_id": 7080352251969, // The product id in your shop
+      "variant_id": 40814619394113, // The variant id in your shop
+      "price": "24.00",
       "quantity": 1,
-      "was_recommended": true
-    },
-    ...
-  ]
+      "total_discount": "0.00", // Optional: Discount given for this item
+      "sku": "", // Optional: SKU of the product
+      "vendor": "Brand 123" // Optional: Vendor of the product
+    }
+  ],
+  "note_attributes": [
+    // with this attribute we mark the items that got recommended by Stella
+    // don't include a "__ask_stella_tracking" attribute if this purchase was not influenced by Stella
+    {
+      "name": "__ask_stella_tracking",
+      "value": "[{\"id\":\"40814619394113\"}]" // JSON array with the variant ids of the recommended products encoded as string
+    }
+  ],
+  "total_discounts": "0.00",
+  "total_line_items_price": "24.00",
+  "total_shipping_price": "3.99",
+  "total_price": "28.99",
+  "total_tax": "0.00",
+  "client_details": {
+    // Optional: Information about the browser of the user
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+  }
 }
 ```
 
-Use your API key in the header `Authorization: Bearer <API_KEY>` to authenticate the request.
+In the header `X-Shop-Domain` you need to provide the domain of the shop to which the purchase belongs.
 
 ## Show recommendations on the product page or listing
 
