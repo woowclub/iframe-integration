@@ -38,3 +38,44 @@ The same properties of the event will also be set in the user's profile. This wa
 # Klaviyo List
 
 If you provide a list ID in our CRM settings, we will add the user to this list and subscribe him/her to email marketing in addition to sending the event. The list ID can be found in Klaviyo under "Lists" -> "View list" -> "Settings" -> "List ID". If you want to use a double opt-in list or if you want to subscribe the user directly to the list, you can set this up in Klaviyo.
+
+# Tutorial
+
+Video showcasing how to set up a Klaviyo flow to send an automated email after a user has completed an analysis (German only):
+
+[Click to open the video](https://askstella.io/help/klaviyo.mp4)
+
+Used HTML code in this toturial:
+
+```html
+Hallo {{ person.first_name }}! Vielen Dank, dass Du unsere Analyse durchgeführt hast. Hier geht es zu Deinem Analyse
+Ergebnis. {{ event.askstella_analysis_url }}
+
+<div style="margin: 9px 18px">
+  <strong>Der für Dich passende "Flawless Finish Concealer":</strong>
+  {% for product in event.askstella_products_all %} {% if "Flawless Finish Concealer" in product.title %}
+  <div style="margin-bottom: 20px">
+    <a href="{{ product.link }}">
+      {% if product.image %}
+      <img src="{{ product.image }}" alt="{{ product.title }}" style="max-width: 100%; height: auto" />
+      {% endif %}
+      <h3>{{ product.title }}</h3>
+    </a>
+  </div>
+  {% endif %} {% endfor %}
+</div>
+
+<div style="margin: 9px 18px">
+  <h2>Hier sind Deine weiteren Produktempfehlungen:</h2>
+  {% for product in event.askstella_products_all %} {% if "Flawless Finish Concealer" not in product.title %}
+  <div style="margin-bottom: 20px">
+    <a href="{{ product.link }}">
+      {% if product.image %}
+      <img src="{{ product.image }}" alt="{{ product.title }}" style="max-width: 100%; height: auto" />
+      {% endif %}
+      <h3>{{ product.title }}</h3>
+    </a>
+  </div>
+  {% endif %} {% endfor %}
+</div>
+```
